@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Tailwind v4 Design Tokens ───────────────────────────────────────── */
+@theme inline {
+  /* Map ShadCN semantic vars */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* WeMoveStuff brand colours */
+  --color-navy:        #001F5B;
+  --color-brand:       #2490FF;
+  --color-brand-hover: #1a7de6;
+  --color-whatsapp:    #25D366;
+  --color-whatsapp-hover: #1da851;
+  --color-light-bg:   #F8FAFC;
+  --color-light-grey: #E5E7EB;
+  --color-dark-text:  #1F2937;
+  --color-success:    #16A34A;
+  --color-warning:    #F59E0B;
+  --color-error:      #DC2626;
+
+  /* Font */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-inter), system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-sm:  calc(var(--radius) * 0.6);
+  --radius-md:  calc(var(--radius) * 0.8);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-card:   16px;
+  --radius-button: 12px;
+  --radius-input:  12px;
+  --radius-image:  20px;
+}
+
+/* ─── ShadCN CSS Variables ────────────────────────────────────────────── */
+:root {
+  /* Override primary → WeMoveStuff brand blue #2490FF */
+  --primary:            oklch(0.627 0.2204 254.5);
+  --primary-foreground: oklch(1 0 0);
+
+  /* Light neutrals */
+  --background:         oklch(1 0 0);
+  --foreground:         oklch(0.27 0.012 261);      /* #1F2937 */
+  --card:               oklch(1 0 0);
+  --card-foreground:    oklch(0.27 0.012 261);
+  --popover:            oklch(1 0 0);
+  --popover-foreground: oklch(0.27 0.012 261);
+  --secondary:          oklch(0.97 0.004 233);       /* #F8FAFC */
+  --secondary-foreground: oklch(0.27 0.012 261);
+  --muted:              oklch(0.97 0.004 233);
+  --muted-foreground:   oklch(0.55 0.012 261);
+  --accent:             oklch(0.97 0.004 233);
+  --accent-foreground:  oklch(0.27 0.012 261);
+  --destructive:        oklch(0.578 0.245 27.3);     /* #DC2626 */
+  --border:             oklch(0.92 0.005 258);       /* #E5E7EB */
+  --input:              oklch(0.92 0.005 258);
+  --ring:               oklch(0.627 0.2204 254.5);   /* brand blue */
+  --radius:             0.75rem;                     /* 12px */
+
+  /* Sidebar (keep ShadCN defaults) */
+  --sidebar:                  oklch(0.985 0 0);
+  --sidebar-foreground:       oklch(0.145 0 0);
+  --sidebar-primary:          oklch(0.627 0.2204 254.5);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent:           oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border:           oklch(0.922 0 0);
+  --sidebar-ring:             oklch(0.627 0.2204 254.5);
+
+  /* Charts */
+  --chart-1: oklch(0.627 0.2204 254.5);
+  --chart-2: oklch(0.22 0.075 258);
+  --chart-3: oklch(0.61 0.18 149);
+  --chart-4: oklch(0.76 0.17 79);
+  --chart-5: oklch(0.578 0.245 27.3);
+}
+
+/* ─── Base Styles ─────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+/* ─── Utility Classes ─────────────────────────────────────────────────── */
+@layer utilities {
+  .section-padding {
+    @apply py-[72px] md:py-[96px] lg:py-[120px];
+  }
+
+  .container-padding {
+    @apply px-5 sm:px-6 md:px-8;
+  }
+
+  .max-container {
+    @apply max-w-[1280px] mx-auto;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
