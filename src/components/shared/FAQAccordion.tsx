@@ -15,15 +15,10 @@ export interface FAQItem {
 
 interface FAQAccordionProps {
   items: FAQItem[];
-  variant?: "default" | "bordered";
   className?: string;
 }
 
-export default function FAQAccordion({
-  items,
-  variant = "default",
-  className,
-}: FAQAccordionProps) {
+export default function FAQAccordion({ items, className }: FAQAccordionProps) {
   return (
     <Accordion
       className={cn("w-full space-y-3", className)}
@@ -33,17 +28,12 @@ export default function FAQAccordion({
         <AccordionItem
           key={i}
           value={String(i)}
-          className={cn(
-            "rounded-[12px] overflow-hidden",
-            variant === "bordered"
-              ? "border border-light-grey"
-              : "bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)] border border-light-grey/60"
-          )}
+          className="rounded-[6px] overflow-hidden bg-ink-panel border border-line data-open:border-gold/40 transition-colors"
         >
-          <AccordionTrigger className="px-5 py-4 text-sm font-semibold text-navy hover:text-brand hover:bg-light-bg/50 hover:no-underline transition-colors gap-3 focus-visible:ring-brand focus-visible:ring-inset rounded-[12px]">
+          <AccordionTrigger className="px-5 py-4 text-sm md:text-[15px] font-semibold text-cream text-left hover:text-gold-bright hover:no-underline transition-colors gap-3 focus-visible:ring-gold/60 focus-visible:ring-inset rounded-[6px]">
             {item.question}
           </AccordionTrigger>
-          <AccordionContent className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">
+          <AccordionContent className="px-5 pb-5 text-sm text-stone leading-relaxed">
             {item.answer}
           </AccordionContent>
         </AccordionItem>

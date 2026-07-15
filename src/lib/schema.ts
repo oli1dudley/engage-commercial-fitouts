@@ -1,16 +1,16 @@
-import { siteConfig } from "./seo.config";
+import { siteConfig } from "./site.config";
 
-// ─── Local Business / Moving Company ──────────────────────────────────────
-export function localBusinessSchema() {
+// ─── Organization ─────────────────────────────────────────────────────────
+// Only verified organisation data is included. Contact channels are added
+// automatically once confirmed values exist in site.config.ts.
+export function organizationSchema() {
   return {
     "@context": "https://schema.org",
-    "@type": "MovingCompany",
-    "@id": `${siteConfig.url}/#business`,
+    "@type": "Organization",
+    "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
-    telephone: siteConfig.phone,
-    email: siteConfig.email,
     logo: {
       "@type": "ImageObject",
       url: `${siteConfig.url}${siteConfig.images.logo}`,
@@ -28,30 +28,11 @@ export function localBusinessSchema() {
         name: "United Arab Emirates",
       },
     },
-    openingHours: siteConfig.openingHours,
-    priceRange: "$$",
-  };
-}
-
-// ─── Organization ─────────────────────────────────────────────────────────
-export function organizationSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${siteConfig.url}/#organization`,
-    name: siteConfig.name,
-    url: siteConfig.url,
-    logo: {
-      "@type": "ImageObject",
-      url: `${siteConfig.url}${siteConfig.images.logo}`,
-    },
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: siteConfig.phone,
-      contactType: "customer service",
-      availableLanguage: ["English", "Arabic"],
-    },
-    sameAs: Object.values(siteConfig.social).filter(Boolean),
+    ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
+    ...(siteConfig.email ? { email: siteConfig.email } : {}),
+    ...(Object.values(siteConfig.social).some(Boolean)
+      ? { sameAs: Object.values(siteConfig.social).filter(Boolean) }
+      : {}),
   };
 }
 
@@ -97,7 +78,7 @@ export function serviceSchema({
   name,
   description,
   url,
-  serviceType = "MovingService",
+  serviceType = "Commercial fit-out",
 }: ServiceSchemaInput) {
   return {
     "@context": "https://schema.org",
@@ -107,7 +88,7 @@ export function serviceSchema({
     description,
     serviceType,
     provider: {
-      "@id": `${siteConfig.url}/#business`,
+      "@id": `${siteConfig.url}/#organization`,
     },
     areaServed: {
       "@type": "City",
@@ -144,56 +125,7 @@ export function contactPageSchema() {
     name: `Contact ${siteConfig.name}`,
     url: `${siteConfig.url}/contact`,
     mainEntity: {
-      "@id": `${siteConfig.url}/#business`,
-    },
-  };
-}
-
-// ─── Blog Article ─────────────────────────────────────────────────────────
-interface ArticleSchemaInput {
-  title: string;
-  description: string;
-  url: string;
-  publishedDate: string;
-  modifiedDate?: string;
-  imageUrl?: string;
-  authorName?: string;
-}
-
-export function articleSchema({
-  title,
-  description,
-  url,
-  publishedDate,
-  modifiedDate,
-  imageUrl,
-  authorName = siteConfig.name,
-}: ArticleSchemaInput) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: title,
-    description,
-    url: `${siteConfig.url}${url}`,
-    datePublished: publishedDate,
-    dateModified: modifiedDate ?? publishedDate,
-    author: {
-      "@type": "Organization",
-      name: authorName,
-    },
-    publisher: {
       "@id": `${siteConfig.url}/#organization`,
-    },
-    ...(imageUrl
-      ? {
-          image: {
-            "@type": "ImageObject",
-            url: `${siteConfig.url}${imageUrl}`,
-          },
-        }
-      : {}),
-    isPartOf: {
-      "@id": `${siteConfig.url}/#website`,
     },
   };
 }

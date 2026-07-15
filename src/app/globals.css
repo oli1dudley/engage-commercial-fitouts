@@ -26,77 +26,75 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* WeMoveStuff brand colours */
-  --color-navy:        #001F5B;
-  --color-brand:       #2490FF;
-  --color-brand-hover: #1a7de6;
-  --color-whatsapp:    #25D366;
-  --color-whatsapp-hover: #1da851;
-  --color-light-bg:   #F8FAFC;
-  --color-light-grey: #E5E7EB;
-  --color-dark-text:  #1F2937;
-  --color-success:    #16A34A;
-  --color-warning:    #F59E0B;
-  --color-error:      #DC2626;
+  /* Engage Commercial Fitouts brand colours — per approved brand guidelines v1.0 */
+  --color-ink:          #050505;   /* ENGAGE BLACK — primary backgrounds */
+  --color-ink-raised:   #101010;   /* raised surface (neutral step toward Charcoal) */
+  --color-ink-panel:    #161616;   /* card / panel surface (neutral step toward Charcoal) */
+  --color-charcoal:     #222222;   /* CHARCOAL — secondary dark areas */
+  --color-gold:         #B79A62;   /* ARCHITECTURAL GOLD — accents, rules, highlights */
+  --color-gold-bright:  #B79A62;   /* alias — same approved gold for text on dark */
+  --color-cream:        #F6F3ED;   /* WARM IVORY — text and soft backgrounds */
+  --color-stone:        rgba(246, 243, 237, 0.72); /* supporting text: ivory at 72% */
+  --color-line:         rgba(246, 243, 237, 0.10); /* hairline borders */
+  --color-success:      #4E9B6E;
+  --color-warning:      #B79A62;
+  --color-error:        #C96B5E;
 
-  /* Font */
+  /* Fonts — Inter per approved brand guidelines (Inter Display optical sizing via opsz axis) */
   --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-inter), system-ui, sans-serif;
 
-  /* Border radius */
+  /* Border radius — restrained, architectural */
   --radius-sm:  calc(var(--radius) * 0.6);
   --radius-md:  calc(var(--radius) * 0.8);
   --radius-lg:  var(--radius);
   --radius-xl:  calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-card:   16px;
-  --radius-button: 12px;
-  --radius-input:  12px;
-  --radius-image:  20px;
+  --radius-card:   6px;
+  --radius-button: 2px;
+  --radius-input:  2px;
+  --radius-image:  6px;
 }
 
-/* ─── ShadCN CSS Variables ────────────────────────────────────────────── */
+/* ─── ShadCN CSS Variables — Engage dark theme (approved palette) ─────── */
 :root {
-  /* Override primary → WeMoveStuff brand blue #2490FF */
-  --primary:            oklch(0.627 0.2204 254.5);
-  --primary-foreground: oklch(1 0 0);
+  --primary:            #B79A62;                     /* Architectural Gold */
+  --primary-foreground: #050505;                     /* Engage Black */
 
-  /* Light neutrals */
-  --background:         oklch(1 0 0);
-  --foreground:         oklch(0.27 0.012 261);      /* #1F2937 */
-  --card:               oklch(1 0 0);
-  --card-foreground:    oklch(0.27 0.012 261);
-  --popover:            oklch(1 0 0);
-  --popover-foreground: oklch(0.27 0.012 261);
-  --secondary:          oklch(0.97 0.004 233);       /* #F8FAFC */
-  --secondary-foreground: oklch(0.27 0.012 261);
-  --muted:              oklch(0.97 0.004 233);
-  --muted-foreground:   oklch(0.55 0.012 261);
-  --accent:             oklch(0.97 0.004 233);
-  --accent-foreground:  oklch(0.27 0.012 261);
-  --destructive:        oklch(0.578 0.245 27.3);     /* #DC2626 */
-  --border:             oklch(0.92 0.005 258);       /* #E5E7EB */
-  --input:              oklch(0.92 0.005 258);
-  --ring:               oklch(0.627 0.2204 254.5);   /* brand blue */
-  --radius:             0.75rem;                     /* 12px */
+  --background:         #050505;
+  --foreground:         #F6F3ED;                     /* Warm Ivory */
+  --card:               #161616;
+  --card-foreground:    #F6F3ED;
+  --popover:            #161616;
+  --popover-foreground: #F6F3ED;
+  --secondary:          #222222;                     /* Charcoal */
+  --secondary-foreground: #F6F3ED;
+  --muted:              #222222;
+  --muted-foreground:   rgba(246, 243, 237, 0.72);
+  --accent:             #222222;
+  --accent-foreground:  #F6F3ED;
+  --destructive:        #C96B5E;
+  --border:             rgba(246, 243, 237, 0.10);
+  --input:              rgba(246, 243, 237, 0.14);
+  --ring:               #B79A62;
+  --radius:             0.25rem;                     /* 4px — sharp, architectural */
 
-  /* Sidebar (keep ShadCN defaults) */
-  --sidebar:                  oklch(0.985 0 0);
-  --sidebar-foreground:       oklch(0.145 0 0);
-  --sidebar-primary:          oklch(0.627 0.2204 254.5);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent:           oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border:           oklch(0.922 0 0);
-  --sidebar-ring:             oklch(0.627 0.2204 254.5);
+  /* Sidebar (unused, kept aligned with theme) */
+  --sidebar:                  #101010;
+  --sidebar-foreground:       #F6F3ED;
+  --sidebar-primary:          #B79A62;
+  --sidebar-primary-foreground: #050505;
+  --sidebar-accent:           #222222;
+  --sidebar-accent-foreground: #F6F3ED;
+  --sidebar-border:           rgba(246, 243, 237, 0.10);
+  --sidebar-ring:             #B79A62;
 
   /* Charts */
-  --chart-1: oklch(0.627 0.2204 254.5);
-  --chart-2: oklch(0.22 0.075 258);
-  --chart-3: oklch(0.61 0.18 149);
-  --chart-4: oklch(0.76 0.17 79);
-  --chart-5: oklch(0.578 0.245 27.3);
+  --chart-1: #B79A62;
+  --chart-2: #F6F3ED;
+  --chart-3: #6B6B6B;                                /* Stone Grey */
+  --chart-4: #222222;
+  --chart-5: #C96B5E;
 }
 
 /* ─── Base Styles ─────────────────────────────────────────────────────── */
@@ -106,7 +104,7 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-ink text-cream antialiased;
   }
 
   html {
@@ -116,6 +114,17 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
+  }
+
+  ::selection {
+    background: #b79a62;
+    color: #050505;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
@@ -135,5 +144,18 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Uppercase gold eyebrow label */
+  .eyebrow {
+    @apply text-[11px] md:text-xs font-semibold uppercase tracking-[0.22em] text-gold-bright;
+  }
+
+  /* Subtle architectural grid texture for dark sections */
+  .grid-texture {
+    background-image:
+      linear-gradient(rgba(246, 243, 237, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(246, 243, 237, 0.025) 1px, transparent 1px);
+    background-size: 72px 72px;
   }
 }

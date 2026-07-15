@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { whatsappUrl } from "@/lib/seo.config";
+import { CTA } from "@/lib/site.config";
 
 interface CTAButton {
   label: string;
   href: string;
-  variant?: "primary" | "secondary" | "whatsapp" | "navy";
-  external?: boolean;
+  variant?: "primary" | "secondary" | "outline";
 }
 
 interface CTASectionProps {
@@ -15,72 +14,45 @@ interface CTASectionProps {
   body?: string;
   primaryCTA?: CTAButton;
   secondaryCTA?: CTAButton;
-  backgroundImage?: string;
 }
 
 export default function CTASection({
   headline,
   body,
-  primaryCTA = { label: "Get Free Quote", href: "/quote", variant: "primary" },
-  secondaryCTA = {
-    label: "WhatsApp Us",
-    href: whatsappUrl,
-    variant: "whatsapp",
-    external: true,
-  },
-  backgroundImage,
+  primaryCTA = { ...CTA.primary, variant: "primary" },
+  secondaryCTA,
 }: CTASectionProps) {
   return (
     <section
-      className="relative overflow-hidden bg-navy"
+      className="relative overflow-hidden bg-ink-raised border-y border-line grid-texture"
       aria-label="Call to action"
     >
-      {/* Background image with overlay */}
-      {backgroundImage && (
-        <>
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${backgroundImage})` }}
-            aria-hidden
-          />
-          <div className="absolute inset-0 bg-navy/70" aria-hidden />
-        </>
-      )}
-
-      {/* Decorative gradient if no image */}
-      {!backgroundImage && (
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            background:
-              "radial-gradient(ellipse at 20% 50%, #2490FF 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, #001F5B 0%, transparent 60%)",
-          }}
-          aria-hidden
-        />
-      )}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 60% at 50% 100%, rgba(183,154,98,0.12) 0%, transparent 65%)",
+        }}
+        aria-hidden
+      />
 
       <div className="relative max-container container-padding section-padding">
         <div className="flex flex-col items-center text-center gap-6 max-w-2xl mx-auto">
-          <h2 className="text-[28px] md:text-[36px] lg:text-[44px] font-extrabold text-white leading-tight tracking-tight text-balance">
+          <span className="inline-block w-10 h-px bg-gold" aria-hidden />
+          <h2 className="text-[26px] md:text-[34px] lg:text-[40px] font-semibold text-cream leading-[1.12] tracking-tight text-balance">
             {headline}
           </h2>
 
           {body && (
-            <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-lg">
+            <p className="text-base md:text-lg text-stone leading-relaxed max-w-xl">
               {body}
             </p>
           )}
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-2">
             {primaryCTA && (
               <Button
-                render={
-                  primaryCTA.external ? (
-                    <a href={primaryCTA.href} target="_blank" rel="noopener noreferrer" />
-                  ) : (
-                    <Link href={primaryCTA.href} />
-                  )
-                }
+                render={<Link href={primaryCTA.href} />}
                 variant={primaryCTA.variant ?? "primary"}
                 size="lg"
                 className="w-full sm:w-auto"
@@ -91,18 +63,11 @@ export default function CTASection({
             )}
             {secondaryCTA && (
               <Button
-                render={
-                  secondaryCTA.external ? (
-                    <a href={secondaryCTA.href} target="_blank" rel="noopener noreferrer" />
-                  ) : (
-                    <Link href={secondaryCTA.href} />
-                  )
-                }
-                variant={secondaryCTA.variant ?? "whatsapp"}
+                render={<Link href={secondaryCTA.href} />}
+                variant={secondaryCTA.variant ?? "secondary"}
                 size="lg"
                 className="w-full sm:w-auto"
               >
-                <MessageCircle className="size-4" />
                 {secondaryCTA.label}
               </Button>
             )}

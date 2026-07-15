@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig } from "./seo.config";
+import { siteConfig } from "./site.config";
 
 interface PageMetadataInput {
   title: string;

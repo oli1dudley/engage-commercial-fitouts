@@ -1,33 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { X, Phone, MessageCircle, FileText } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { X, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { whatsappUrl, phoneHref } from "@/lib/seo.config";
+import Logo from "./Logo";
+import { NAV_ITEMS, CTA } from "@/lib/site.config";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Locations", href: "/locations" },
-  { label: "Resources", href: "/resources" },
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
-];
-
-const serviceLinks = [
-  { label: "Apartment Moving", href: "/services/apartment-moving" },
-  { label: "Villa Moving", href: "/services/villa-moving" },
-  { label: "Commercial Moving", href: "/services/commercial-moving" },
-  { label: "Packing Services", href: "/services/packing-services" },
-  { label: "Furniture Assembly", href: "/services/furniture-assembly" },
-  { label: "TV Installation", href: "/services/tv-installation" },
-];
 
 interface MobileNavProps {
   open: boolean;
@@ -41,10 +22,14 @@ function isActive(href: string, pathname: string): boolean {
 
 export default function MobileNav({ open, onClose }: MobileNavProps) {
   const pathname = usePathname();
+  const reduced = useReducedMotion();
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Lock body scroll when open
+  // Lock body scroll when open; move focus into the dialog
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (open) closeButtonRef.current?.focus();
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
@@ -62,10 +47,10 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
           {/* Backdrop */}
           <motion.div
             key="backdrop"
-            className="fixed inset-0 z-50 bg-black/40 lg:hidden"
-            initial={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/60 lg:hidden"
+            initial={{ opacity: reduced ? 1 : 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: reduced ? 1 : 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
             aria-hidden
@@ -74,38 +59,24 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
           {/* Drawer */}
           <motion.div
             key="drawer"
-            className="fixed inset-y-0 right-0 z-50 w-[85vw] max-w-sm bg-white flex flex-col shadow-2xl lg:hidden"
-            initial={{ x: "100%" }}
+            className="fixed inset-y-0 right-0 z-50 w-[85vw] max-w-sm bg-ink-raised border-l border-line flex flex-col shadow-2xl lg:hidden"
+            initial={{ x: reduced ? 0 : "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: reduced ? 0 : "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 260 }}
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 h-[72px] border-b border-light-grey">
-              <div className="flex items-center gap-2.5">
-                <Image
-                  src="/images/logo/van-logo.jpeg"
-                  alt=""
-                  width={1400}
-                  height={783}
-                  className="h-14 w-auto"
-                  priority
-                />
-                <Image
-                  src="/images/logo/wemovestuff-writing.jpeg"
-                  alt="WeMoveStuff"
-                  width={2000}
-                  height={667}
-                  className="h-11 w-auto"
-                  priority
-                />
-              </div>
+            <div className="flex items-center justify-between px-5 h-[72px] border-b border-line">
+              <Link href="/" onClick={onClose} aria-label="Engage Commercial Fitouts — home">
+                <Logo size="sm" />
+              </Link>
               <button
+                ref={closeButtonRef}
                 onClick={onClose}
-                className="p-2 -mr-1 rounded-lg text-dark-text hover:bg-light-grey/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                className="p-2 -mr-1 rounded-[2px] text-cream hover:bg-cream/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
                 aria-label="Close menu"
               >
                 <X className="size-5" />
@@ -113,89 +84,89 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
             </div>
 
             {/* Scrollable content */}
-            <div className="flex-1 overflow-y-auto py-6 px-5 flex flex-col gap-6">
-              {/* Main nav */}
-              <nav aria-label="Mobile navigation">
-                <ul className="space-y-1">
-                  {navLinks.map((link) => {
-                    const active = isActive(link.href, pathname);
+            <nav className="flex-1 overflow-y-auto py-6 px-5" aria-label="Mobile navigation">
+              <ul className="space-y-1">
+                {NAV_ITEMS.map((item) => {
+                  const active = isActive(item.href, pathname);
+
+                  if (item.children) {
+                    const isExpanded = expanded === item.label;
                     return (
-                      <li key={link.href}>
-                        <Link
-                          href={link.href}
-                          onClick={onClose}
-                          aria-current={active ? "page" : undefined}
+                      <li key={item.href}>
+                        <button
+                          type="button"
+                          aria-expanded={isExpanded}
+                          onClick={() => setExpanded(isExpanded ? null : item.label)}
                           className={cn(
-                            "flex items-center gap-2 px-3 py-2.5 rounded-lg text-base font-medium transition-colors",
-                            active
-                              ? "bg-brand/8 text-navy font-semibold"
-                              : "text-dark-text hover:bg-light-bg hover:text-navy"
+                            "flex w-full items-center justify-between px-3 py-2.5 rounded-[2px] text-base font-medium transition-colors",
+                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60",
+                            active ? "text-gold-bright" : "text-cream/80 hover:text-cream hover:bg-cream/5"
                           )}
                         >
-                          {active && (
-                            <span className="w-1 h-4 rounded-full bg-brand shrink-0" aria-hidden />
-                          )}
-                          {link.label}
-                        </Link>
+                          {item.label}
+                          <ChevronDown
+                            className={cn("size-4 transition-transform duration-200", isExpanded && "rotate-180")}
+                            aria-hidden
+                          />
+                        </button>
+                        {isExpanded && (
+                          <ul className="mt-1 mb-2 border-l border-line ml-3 pl-3 space-y-1">
+                            {item.children.map((child) => (
+                              <li key={child.href}>
+                                <Link
+                                  href={child.href}
+                                  onClick={onClose}
+                                  aria-current={pathname === child.href ? "page" : undefined}
+                                  className={cn(
+                                    "block px-3 py-2 rounded-[2px] text-sm transition-colors",
+                                    pathname === child.href
+                                      ? "text-gold-bright"
+                                      : "text-cream/60 hover:text-cream hover:bg-cream/5"
+                                  )}
+                                >
+                                  {child.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </li>
                     );
-                  })}
-                </ul>
-              </nav>
+                  }
 
-              {/* Services */}
-              <div>
-                <p className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Services
-                </p>
-                <ul className="space-y-1">
-                  {serviceLinks.map((link) => (
-                    <li key={link.href}>
+                  return (
+                    <li key={item.href}>
                       <Link
-                        href={link.href}
+                        href={item.href}
                         onClick={onClose}
-                        className="block px-3 py-2 rounded-lg text-sm font-medium text-dark-text hover:bg-light-bg hover:text-navy transition-colors"
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "flex items-center gap-2 px-3 py-2.5 rounded-[2px] text-base font-medium transition-colors",
+                          active
+                            ? "text-gold-bright"
+                            : "text-cream/80 hover:text-cream hover:bg-cream/5"
+                        )}
                       >
-                        {link.label}
+                        {active && <span className="w-1 h-4 bg-gold shrink-0" aria-hidden />}
+                        {item.label}
                       </Link>
                     </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+                  );
+                })}
+              </ul>
+            </nav>
 
             {/* CTA Footer */}
-            <div className="px-5 py-5 border-t border-light-grey flex flex-col gap-3">
+            <div className="px-5 py-5 border-t border-line">
               <Button
-                render={<Link href="/quote" />}
+                render={<Link href={CTA.primary.href} />}
                 variant="primary"
                 size="lg"
                 onClick={onClose}
                 className="w-full"
               >
-                <FileText className="size-4" />
-                Get Free Quote
+                {CTA.primary.label}
               </Button>
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  render={<a href={whatsappUrl} target="_blank" rel="noopener noreferrer" />}
-                  variant="whatsapp"
-                  size="md"
-                  className="w-full"
-                >
-                  <MessageCircle className="size-4" />
-                  WhatsApp
-                </Button>
-                <Button
-                  render={<a href={phoneHref} />}
-                  variant="secondary"
-                  size="md"
-                  className="w-full"
-                >
-                  <Phone className="size-4" />
-                  Call Us
-                </Button>
-              </div>
             </div>
           </motion.div>
         </>

@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, type HTMLMotionProps, type Variants } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  type HTMLMotionProps,
+  type Variants,
+} from "framer-motion";
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
 
@@ -44,6 +49,8 @@ const staggerItemVariants: Variants = {
   },
 };
 
+const noMotion = { hidden: {}, visible: {} };
+
 // ─── FadeUp ───────────────────────────────────────────────────────────────
 interface AnimProps extends HTMLMotionProps<"div"> {
   delay?: number;
@@ -51,13 +58,14 @@ interface AnimProps extends HTMLMotionProps<"div"> {
 }
 
 export function FadeUp({ delay = 0, className, children, ...props }: AnimProps) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
       custom={delay}
-      variants={fadeUpVariants}
+      variants={reduced ? noMotion : fadeUpVariants}
       className={className}
       {...props}
     >
@@ -68,13 +76,14 @@ export function FadeUp({ delay = 0, className, children, ...props }: AnimProps) 
 
 // ─── FadeIn ───────────────────────────────────────────────────────────────
 export function FadeIn({ delay = 0, className, children, ...props }: AnimProps) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
       custom={delay}
-      variants={fadeInVariants}
+      variants={reduced ? noMotion : fadeInVariants}
       className={className}
       {...props}
     >
@@ -89,12 +98,13 @@ export function StaggerGrid({
   children,
   ...props
 }: Omit<HTMLMotionProps<"div">, "variants"> & { children: React.ReactNode }) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
-      variants={staggerContainerVariants}
+      variants={reduced ? noMotion : staggerContainerVariants}
       className={className}
       {...props}
     >
@@ -109,22 +119,10 @@ export function StaggerItem({
   children,
   ...props
 }: Omit<HTMLMotionProps<"div">, "variants"> & { children: React.ReactNode }) {
-  return (
-    <motion.div variants={staggerItemVariants} className={className} {...props}>
-      {children}
-    </motion.div>
-  );
-}
-
-// ─── ScaleHover ───────────────────────────────────────────────────────────
-export function ScaleHover({
-  className,
-  children,
-  ...props
-}: Omit<HTMLMotionProps<"div">, "whileHover"> & { children: React.ReactNode }) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      variants={reduced ? noMotion : staggerItemVariants}
       className={className}
       {...props}
     >
