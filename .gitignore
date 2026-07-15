@@ -42,3 +42,7 @@ next-env.d.ts
 
 # committed template documenting required environment variables
 !.env.example
+
+# local review artefacts — never commit
+visual-review-pack/
+Engage-*.zip
