@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig } from "./site.config";
+import { siteConfig, INDEXING_ENABLED } from "./site.config";
 
 interface PageMetadataInput {
   title: string;
@@ -48,6 +48,19 @@ export function generatePageMetadata({
       description,
       images: [image],
     },
-    ...(noIndex ? { robots: { index: false, follow: false } } : {}),
+    // Pre-launch indexing lock: while INDEXING_ENABLED is false every page is
+    // explicitly noindex/nofollow regardless of the per-page noIndex option.
+    ...(!INDEXING_ENABLED
+      ? {
+          robots: {
+            index: false,
+            follow: false,
+            noarchive: true,
+            nosnippet: true,
+          },
+        }
+      : noIndex
+        ? { robots: { index: false, follow: false } }
+        : {}),
   };
 }

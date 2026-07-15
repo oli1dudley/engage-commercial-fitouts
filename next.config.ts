@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+// Pre-launch indexing lock (see src/lib/site.config.ts). Only the exact
+// string "true" enables indexing; every other state emits a blocking
+// X-Robots-Tag header on all responses.
+const indexingEnabled = process.env.SITE_INDEXING_ENABLED === "true";
+
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
@@ -17,6 +22,14 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          ...(indexingEnabled
+            ? []
+            : [
+                {
+                  key: "X-Robots-Tag",
+                  value: "noindex, nofollow, noarchive",
+                },
+              ]),
         ],
       },
     ];

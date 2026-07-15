@@ -22,8 +22,10 @@ export const siteConfig = {
   name: "Engage Commercial Fitouts",
   shortName: "Engage",
   tagline: "Commercial Spaces, Transformed End to End",
-  // TODO(launch): replace with the confirmed production domain.
+  // TODO(launch): replace with the confirmed production domain, then set
+  // urlConfirmed to true. Indexing cannot be enabled until both are done.
   url: "https://www.engagecommercialfitouts.com",
+  urlConfirmed: false as boolean,
   description:
     "Engage Commercial Fitouts transforms outdated, vacant and shell-condition commercial properties into complete, market-ready offices through one fully managed service across Dubai.",
   footerDescription:
@@ -66,6 +68,37 @@ export const siteConfig = {
 export const phoneHref = siteConfig.phone
   ? `tel:${siteConfig.phone.replace(/\s/g, "")}`
   : "";
+
+// ─── Pre-launch indexing lock ───────────────────────────────────────────────
+/**
+ * Fail-safe launch control. The site is only indexable when the environment
+ * variable SITE_INDEXING_ENABLED is EXACTLY the string "true". Every other
+ * state — missing, empty, "false", misspelled, local dev, preview or the
+ * temporary vercel.app production deployment — keeps the site non-indexable
+ * (robots meta noindex, X-Robots-Tag header, robots.txt Disallow: /).
+ *
+ * Deliberately independent of VERCEL_ENV: deploying to Vercel production is
+ * NOT launch approval. This flag is the only switch.
+ */
+export const INDEXING_ENABLED = process.env.SITE_INDEXING_ENABLED === "true";
+
+// Launch guard: indexing must never be enabled against a missing, malformed
+// or temporary domain. Throwing here fails the production build (this module
+// is imported by every page) with a clear explanation. It cannot trigger
+// while SITE_INDEXING_ENABLED is unset or false.
+if (INDEXING_ENABLED) {
+  const url = siteConfig.url;
+  const isValidHttps = /^https:\/\/[a-z0-9.-]+\.[a-z]{2,}$/i.test(url);
+  if (!isValidHttps || url.includes("vercel.app") || !siteConfig.urlConfirmed) {
+    throw new Error(
+      `SITE_INDEXING_ENABLED=true but siteConfig.url ("${url}") is not a ` +
+        "confirmed production domain. Before enabling indexing: set the final " +
+        "branded domain in src/lib/site.config.ts (https://…, not a vercel.app " +
+        "address), set urlConfirmed to true, complete the TODO(launch) items, " +
+        "then rebuild."
+    );
+  }
+}
 
 // ─── CTA labels ─────────────────────────────────────────────────────────────
 export const CTA = {

@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StructuredData from "@/components/seo/StructuredData";
 import { organizationSchema, webSiteSchema } from "@/lib/schema";
-import { siteConfig } from "@/lib/site.config";
+import { siteConfig, INDEXING_ENABLED } from "@/lib/site.config";
 import "./globals.css";
 
 // Approved brand typeface: Inter (body) with the opsz axis enabled so large
@@ -39,10 +39,21 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  // Pre-launch indexing lock — see INDEXING_ENABLED in site.config.ts.
+  robots: INDEXING_ENABLED
+    ? { index: true, follow: true }
+    : {
+        index: false,
+        follow: false,
+        noarchive: true,
+        nosnippet: true,
+        googleBot: {
+          index: false,
+          follow: false,
+          noarchive: true,
+          nosnippet: true,
+        },
+      },
 };
 
 export default function RootLayout({
