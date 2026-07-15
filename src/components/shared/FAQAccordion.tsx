@@ -21,6 +21,8 @@ interface FAQAccordionProps {
 export default function FAQAccordion({ items, className }: FAQAccordionProps) {
   return (
     <Accordion
+      // Multiple answers may remain open at once so readers can compare them
+      multiple
       className={cn("w-full space-y-3", className)}
       aria-label="Frequently asked questions"
     >

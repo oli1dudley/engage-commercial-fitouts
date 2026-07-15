@@ -6,6 +6,8 @@ import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
 import StructuredData from "@/components/seo/StructuredData";
 import PageHero from "@/components/shared/PageHero";
 import SectionHeader from "@/components/shared/SectionHeader";
+import ScopeGroups from "@/components/shared/ScopeGroups";
+import ContentSplit from "@/components/shared/ContentSplit";
 import CTASection from "@/components/shared/CTASection";
 import { FadeUp, StaggerGrid, StaggerItem } from "@/components/ui/motion";
 import type { BreadcrumbItem } from "@/types/seo";
@@ -22,23 +24,44 @@ const BREADCRUMBS: BreadcrumbItem[] = [
   { label: "Commercial Fit-Out & Renovation" },
 ];
 
-const WORKS = [
-  "Strip-out and removal",
-  "Demolition and preparation",
-  "Partitioning",
-  "Ceilings",
-  "Flooring",
-  "Wall finishes",
-  "Painting and decoration",
-  "Joinery",
-  "Doors and glazing",
-  "Reception areas",
-  "Meeting rooms",
-  "Kitchens and pantries",
-  "Washroom upgrades where applicable",
-  "Storage",
-  "Built-in furniture",
-  "Final finishes",
+const SCOPE_GROUPS = [
+  {
+    heading: "Preparation",
+    note: "Clearing and preparing the space before construction begins.",
+    items: ["Strip-out and removal", "Demolition", "Site preparation"],
+  },
+  {
+    heading: "Construction",
+    note: "The physical build of the new interior.",
+    items: [
+      "Partitioning",
+      "Ceilings",
+      "Doors and glazing",
+      "Joinery",
+      "Built-in furniture",
+    ],
+  },
+  {
+    heading: "Finishes",
+    note: "The surfaces and detail that complete the interior.",
+    items: [
+      "Flooring",
+      "Wall finishes",
+      "Painting and decoration",
+      "Final finishes",
+    ],
+  },
+  {
+    heading: "Facilities",
+    note: "The functional spaces every working office depends on.",
+    items: [
+      "Reception areas",
+      "Meeting rooms",
+      "Kitchens and pantries",
+      "Washroom upgrades where applicable",
+      "Storage",
+    ],
+  },
 ];
 
 const STARTING_CONDITIONS = [
@@ -87,80 +110,75 @@ export default function FitOutRenovationPage() {
         body="Engage manages the physical transformation of commercial offices, from initial strip-out and preparation through construction, finishes and final installation."
         primaryCTA={{ label: "Discuss a Fit-Out Project", href: "/contact", variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Fit-out works concept"
+        visual="fit-out-renovation"
       />
 
-      {/* ── Works ────────────────────────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="works-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
+      {/* ── Scope, grouped by build stage ────────────────────────────── */}
+      <section className="bg-ink py-[64px] md:py-[84px] lg:py-[104px]" aria-labelledby="works-heading">
+        <div className="max-container container-padding flex flex-col gap-8">
           <FadeUp>
             <SectionHeader
               id="works-heading"
               eyebrow="Scope of Works"
-              headline="Works the Fit-Out May Include"
-              subheadline="The exact scope is agreed for each property based on its condition, design and intended outcome."
+              headline="Four Stages of the Physical Transformation"
+              subheadline="The exact scope is agreed for each property based on its condition, design and intended outcome. The drawing follows the same sequence: existing condition, preparation, construction, finished office."
+              align="left"
             />
           </FadeUp>
 
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {WORKS.map((item, i) => (
-              <StaggerItem key={item}>
-                <div className="flex items-center gap-4 rounded-[6px] bg-ink-panel border border-line p-5 h-full">
-                  <span className="font-heading text-xs font-semibold tracking-[0.2em] text-gold-bright shrink-0" aria-hidden>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm font-medium text-cream/85">{item}</span>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGrid>
+          <FadeUp delay={0.08}>
+            <ScopeGroups groups={SCOPE_GROUPS} columns={4} />
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Quality beside the section build-up drawing ──────────────── */}
+      <section className="bg-ink-raised border-y border-line py-[64px] md:py-[84px] lg:py-[104px]" aria-labelledby="quality-heading">
+        <div className="max-container container-padding">
+          <FadeUp>
+            <ContentSplit visual="fit-out-renovation" visualSide="left">
+              <SectionHeader
+                id="quality-heading"
+                eyebrow="Quality & Coordination"
+                headline="Controlled From Scope to Completion"
+                align="left"
+              />
+              <p className="text-base text-stone leading-relaxed">
+                Site works are managed against the approved scope, with
+                supervision, sequencing and quality checks built into the
+                programme.
+              </p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+                {QUALITY_POINTS.map((point) => (
+                  <li key={point} className="flex items-start gap-3 text-sm text-cream/80">
+                    <span className="mt-[9px] inline-block w-4 h-px bg-gold shrink-0" aria-hidden />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </ContentSplit>
+          </FadeUp>
         </div>
       </section>
 
       {/* ── Starting conditions ──────────────────────────────────────── */}
-      <section className="bg-ink-raised border-y border-line section-padding" aria-labelledby="conditions-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
+      <section className="bg-ink py-[56px] md:py-[72px] lg:py-[88px]" aria-labelledby="conditions-heading">
+        <div className="max-container container-padding flex flex-col gap-8">
           <FadeUp>
             <SectionHeader
               id="conditions-heading"
               eyebrow="Starting Conditions"
               headline="From Any Reasonable Starting Point"
+              align="left"
             />
           </FadeUp>
 
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <StaggerGrid className="flex flex-wrap gap-3">
             {STARTING_CONDITIONS.map((condition) => (
               <StaggerItem key={condition}>
-                <div className="flex items-start gap-3 rounded-[6px] bg-ink border border-line p-5 h-full">
-                  <span className="mt-[9px] inline-block w-4 h-px bg-gold shrink-0" aria-hidden />
+                <div className="flex items-center gap-3 rounded-[6px] bg-ink-panel border border-line px-4 py-3">
+                  <span className="inline-block w-3.5 h-px bg-gold shrink-0" aria-hidden />
                   <span className="text-sm font-medium text-cream/85">{condition}</span>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGrid>
-        </div>
-      </section>
-
-      {/* ── Quality and coordination ─────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="quality-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
-          <FadeUp>
-            <SectionHeader
-              id="quality-heading"
-              eyebrow="Quality & Coordination"
-              headline="Controlled From Scope to Completion"
-              subheadline="Site works are managed against the approved scope, with supervision, sequencing and quality checks built into the programme."
-            />
-          </FadeUp>
-
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {QUALITY_POINTS.map((point, i) => (
-              <StaggerItem key={point}>
-                <div className="flex flex-col gap-3 rounded-[6px] bg-ink-panel border border-line p-5 h-full">
-                  <span className="font-heading text-xs font-semibold tracking-[0.2em] text-gold-bright" aria-hidden>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm font-medium text-cream/85">{point}</span>
                 </div>
               </StaggerItem>
             ))}

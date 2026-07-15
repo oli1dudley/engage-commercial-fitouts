@@ -6,8 +6,10 @@ import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
 import StructuredData from "@/components/seo/StructuredData";
 import PageHero from "@/components/shared/PageHero";
 import SectionHeader from "@/components/shared/SectionHeader";
+import ScopeGroups from "@/components/shared/ScopeGroups";
+import ContentSplit from "@/components/shared/ContentSplit";
 import CTASection from "@/components/shared/CTASection";
-import { FadeUp, StaggerGrid, StaggerItem } from "@/components/ui/motion";
+import { FadeUp } from "@/components/ui/motion";
 import type { BreadcrumbItem } from "@/types/seo";
 
 export const metadata: Metadata = generatePageMetadata({
@@ -22,19 +24,45 @@ const BREADCRUMBS: BreadcrumbItem[] = [
   { label: "Project Management & Handover" },
 ];
 
-const RESPONSIBILITIES = [
-  "Scope definition",
-  "Programme preparation",
-  "Budget coordination",
-  "Procurement planning",
-  "Contractor coordination",
-  "Supplier coordination",
-  "Site management",
-  "Progress reporting",
-  "Quality assurance",
-  "Change control",
-  "Snagging",
-  "Handover coordination",
+// Responsibilities and handover activities organised into the three
+// delivery phases — every previously listed item is preserved.
+const PHASE_GROUPS = [
+  {
+    heading: "Plan",
+    note: "Before works begin: the project is defined and organised.",
+    items: [
+      "Scope definition",
+      "Programme preparation",
+      "Budget coordination",
+      "Procurement planning",
+    ],
+  },
+  {
+    heading: "Control",
+    note: "During delivery: people, progress and change are actively managed.",
+    items: [
+      "Contractor coordination",
+      "Supplier coordination",
+      "Site management",
+      "Progress reporting",
+      "Change control",
+      "Quality assurance",
+    ],
+  },
+  {
+    heading: "Complete",
+    note: "At the end: the space is checked, corrected and handed back.",
+    items: [
+      "Snagging",
+      "Defect correction",
+      "Testing",
+      "Cleaning coordination",
+      "Completion records",
+      "Keys, access and equipment information",
+      "Final client walkthrough",
+      "Handover coordination",
+    ],
+  },
 ];
 
 const COMMUNICATION = [
@@ -44,18 +72,6 @@ const COMMUNICATION = [
   "Variation approval",
   "Programme reporting",
   "Completion reporting",
-];
-
-const HANDOVER = [
-  "Final inspection",
-  "Snagging",
-  "Defect correction",
-  "Cleaning coordination",
-  "Testing",
-  "Completion records",
-  "Keys and access",
-  "Equipment information",
-  "Final client walkthrough",
 ];
 
 export default function ProjectManagementPage() {
@@ -85,85 +101,54 @@ export default function ProjectManagementPage() {
         body="Engage manages the people, programme, information and delivery stages required to bring the complete fit-out together."
         primaryCTA={{ label: "Plan Your Project Delivery", href: "/contact", variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Project coordination concept"
+        visual="project-management"
       />
 
-      {/* ── Responsibilities ─────────────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="responsibilities-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
+      {/* ── Three delivery phases ────────────────────────────────────── */}
+      <section className="bg-ink py-[64px] md:py-[84px] lg:py-[104px]" aria-labelledby="phases-heading">
+        <div className="max-container container-padding flex flex-col gap-8">
           <FadeUp>
             <SectionHeader
-              id="responsibilities-heading"
-              eyebrow="Responsibilities"
-              headline="What Project Management May Include"
-              subheadline="The exact responsibilities are confirmed within the agreed scope for each project."
+              id="phases-heading"
+              eyebrow="Plan · Control · Complete"
+              headline="Responsibilities Across Three Delivery Phases"
+              subheadline="The exact responsibilities are confirmed within the agreed scope for each project. Exact handover documentation depends on the agreed scope."
+              align="left"
             />
           </FadeUp>
 
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {RESPONSIBILITIES.map((item, i) => (
-              <StaggerItem key={item}>
-                <div className="flex items-center gap-4 rounded-[6px] bg-ink-panel border border-line p-5 h-full">
-                  <span className="font-heading text-xs font-semibold tracking-[0.2em] text-gold-bright shrink-0" aria-hidden>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm font-medium text-cream/85">{item}</span>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGrid>
+          <FadeUp delay={0.08}>
+            <ScopeGroups groups={PHASE_GROUPS} columns={3} />
+          </FadeUp>
         </div>
       </section>
 
-      {/* ── Communication ────────────────────────────────────────────── */}
-      <section className="bg-ink-raised border-y border-line section-padding" aria-labelledby="communication-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
+      {/* ── Communication beside the programme-line drawing ──────────── */}
+      <section className="bg-ink-raised border-y border-line py-[64px] md:py-[84px] lg:py-[104px]" aria-labelledby="communication-heading">
+        <div className="max-container container-padding">
           <FadeUp>
-            <SectionHeader
-              id="communication-heading"
-              eyebrow="Communication"
-              headline="Clear Reporting Throughout Delivery"
-              subheadline="Clients keep visibility of progress, decisions and changes through one defined point of contact."
-            />
+            <ContentSplit visual="project-management" visualSide="right">
+              <SectionHeader
+                id="communication-heading"
+                eyebrow="Communication"
+                headline="Clear Reporting Throughout Delivery"
+                align="left"
+              />
+              <p className="text-base text-stone leading-relaxed">
+                Clients keep visibility of progress, decisions and changes
+                through one defined point of contact — from the first programme
+                milestone to the handover checkpoint.
+              </p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+                {COMMUNICATION.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-cream/80">
+                    <span className="mt-[9px] inline-block w-4 h-px bg-gold shrink-0" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </ContentSplit>
           </FadeUp>
-
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto w-full">
-            {COMMUNICATION.map((item) => (
-              <StaggerItem key={item}>
-                <div className="flex items-start gap-3 rounded-[6px] bg-ink border border-line p-5 h-full">
-                  <span className="mt-[9px] inline-block w-4 h-px bg-gold shrink-0" aria-hidden />
-                  <span className="text-sm font-medium text-cream/85">{item}</span>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGrid>
-        </div>
-      </section>
-
-      {/* ── Handover ─────────────────────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="handover-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
-          <FadeUp>
-            <SectionHeader
-              id="handover-heading"
-              eyebrow="Handover"
-              headline="Completing and Handing Back the Space"
-              subheadline="The final stage prepares the space for its intended use. Exact documentation depends on the agreed scope."
-            />
-          </FadeUp>
-
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {HANDOVER.map((item, i) => (
-              <StaggerItem key={item}>
-                <div className="flex items-center gap-4 rounded-[6px] bg-ink-panel border border-line p-5 h-full">
-                  <span className="font-heading text-xs font-semibold tracking-[0.2em] text-gold-bright shrink-0" aria-hidden>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm font-medium text-cream/85">{item}</span>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGrid>
         </div>
       </section>
 

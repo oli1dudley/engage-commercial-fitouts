@@ -135,11 +135,12 @@ export default function FAQsPage() {
         body="Answers to common questions about Engage's commercial fit-out, renovation and project delivery services."
         breadcrumbs={BREADCRUMBS}
         variant="centered"
+        compact
       />
 
       {/* ── FAQ accordion ────────────────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="faqs-heading">
-        <div className="max-container container-padding flex flex-col gap-10 max-w-3xl mx-auto">
+      <section className="bg-ink py-[56px] md:py-[72px] lg:py-[88px]" aria-labelledby="faqs-heading">
+        <div className="max-container container-padding flex flex-col gap-8 max-w-3xl mx-auto">
           <FadeUp>
             <SectionHeader
               id="faqs-heading"

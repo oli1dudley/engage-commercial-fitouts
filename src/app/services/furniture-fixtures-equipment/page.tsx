@@ -6,10 +6,11 @@ import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
 import StructuredData from "@/components/seo/StructuredData";
 import PageHero from "@/components/shared/PageHero";
 import SectionHeader from "@/components/shared/SectionHeader";
+import ScopeGroups from "@/components/shared/ScopeGroups";
 import ComparisonSection from "@/components/shared/ComparisonSection";
 import ProcessSteps from "@/components/shared/ProcessSteps";
 import CTASection from "@/components/shared/CTASection";
-import { FadeUp, StaggerGrid, StaggerItem } from "@/components/ui/motion";
+import { FadeUp } from "@/components/ui/motion";
 import type { BreadcrumbItem } from "@/types/seo";
 
 export const metadata: Metadata = generatePageMetadata({
@@ -24,31 +25,40 @@ const BREADCRUMBS: BreadcrumbItem[] = [
   { label: "Furniture, Fixtures & Equipment" },
 ];
 
-const CATEGORIES = [
-  "Workstations and desks",
-  "Task chairs",
-  "Executive furniture",
-  "Meeting tables and chairs",
-  "Reception furniture",
-  "Breakout furniture",
-  "Storage",
-  "Shelving",
-  "Kitchen and pantry equipment",
-  "Blinds and window treatments",
-  "Decorative lighting",
-  "Accessories and finishing items",
-  "Signage and wayfinding",
-  "Audio-visual coordination where included",
+const PRODUCT_GROUPS = [
+  {
+    heading: "Workstations",
+    items: ["Workstations and desks", "Task chairs", "Executive furniture"],
+  },
+  {
+    heading: "Meetings & Reception",
+    items: ["Meeting tables and chairs", "Reception furniture"],
+  },
+  {
+    heading: "Breakout & Amenities",
+    items: ["Breakout furniture", "Kitchen and pantry equipment"],
+  },
+  {
+    heading: "Storage & Support",
+    items: [
+      "Storage",
+      "Shelving",
+      "Blinds and window treatments",
+      "Signage and wayfinding",
+      "Decorative lighting",
+      "Accessories and finishing items",
+      "Audio-visual coordination where included",
+    ],
+  },
 ];
 
 const PROCUREMENT_STEPS = [
-  { title: "Product selection" },
-  { title: "Supplier coordination" },
-  { title: "Lead-time management" },
-  { title: "Delivery scheduling" },
-  { title: "Installation" },
-  { title: "Final placement" },
-  { title: "Defect checks" },
+  { title: "Select", description: "Product selection against the brief and budget" },
+  { title: "Procure", description: "Supplier coordination and ordering" },
+  { title: "Coordinate", description: "Lead-time management across suppliers" },
+  { title: "Deliver", description: "Scheduled delivery to site" },
+  { title: "Install", description: "Assembly and final placement" },
+  { title: "Inspect", description: "Defect checks before handover" },
 ];
 
 export default function FurniturePage() {
@@ -78,36 +88,48 @@ export default function FurniturePage() {
         body="Engage can source, coordinate and install the furniture, fixtures and equipment required to turn a completed fit-out into a usable workplace or presentable commercial asset."
         primaryCTA={{ label: "Plan the Complete Office", href: "/contact", variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Furnished office concept"
+        visual="furniture-equipment"
       />
 
-      {/* ── Categories ───────────────────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="categories-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
+      {/* ── Product groups ───────────────────────────────────────────── */}
+      <section className="bg-ink py-[64px] md:py-[84px] lg:py-[104px]" aria-labelledby="categories-heading">
+        <div className="max-container container-padding flex flex-col gap-8">
           <FadeUp>
             <SectionHeader
               id="categories-heading"
-              eyebrow="Categories"
+              eyebrow="Scope"
               headline="What Can Be Supplied and Installed"
+              subheadline="Fourteen categories organised by the part of the office they serve — specified for the project, never sold as retail products."
+              align="left"
             />
           </FadeUp>
 
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {CATEGORIES.map((item) => (
-              <StaggerItem key={item}>
-                <div className="flex items-start gap-3 rounded-[6px] bg-ink-panel border border-line p-5 h-full">
-                  <span className="mt-[9px] inline-block w-4 h-px bg-gold shrink-0" aria-hidden />
-                  <span className="text-sm font-medium text-cream/85">{item}</span>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGrid>
+          <FadeUp delay={0.08}>
+            <ScopeGroups groups={PRODUCT_GROUPS} columns={2} />
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Procurement sequence ─────────────────────────────────────── */}
+      <section className="bg-ink-raised border-y border-line grid-texture py-[56px] md:py-[72px] lg:py-[88px]" aria-labelledby="procurement-heading">
+        <div className="max-container container-padding flex flex-col gap-10">
+          <FadeUp>
+            <SectionHeader
+              id="procurement-heading"
+              eyebrow="Procurement"
+              headline="Six Steps From Selection to Inspection"
+            />
+          </FadeUp>
+
+          <FadeUp delay={0.08}>
+            <ProcessSteps steps={PROCUREMENT_STEPS} variant="row" />
+          </FadeUp>
         </div>
       </section>
 
       {/* ── Investor vs business approach ────────────────────────────── */}
-      <section className="bg-ink-raised border-y border-line section-padding" aria-labelledby="ffe-approach-heading">
-        <div className="max-container container-padding flex flex-col gap-12">
+      <section className="bg-ink py-[64px] md:py-[84px] lg:py-[104px]" aria-labelledby="ffe-approach-heading">
+        <div className="max-container container-padding flex flex-col gap-10">
           <FadeUp>
             <SectionHeader
               id="ffe-approach-heading"
@@ -144,23 +166,6 @@ export default function FurniturePage() {
                 ],
               }}
             />
-          </FadeUp>
-        </div>
-      </section>
-
-      {/* ── Procurement process ──────────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="procurement-heading">
-        <div className="max-container container-padding flex flex-col gap-14">
-          <FadeUp>
-            <SectionHeader
-              id="procurement-heading"
-              eyebrow="Procurement"
-              headline="A Managed Procurement and Installation Process"
-            />
-          </FadeUp>
-
-          <FadeUp delay={0.08}>
-            <ProcessSteps steps={PROCUREMENT_STEPS} variant="row" />
           </FadeUp>
         </div>
       </section>

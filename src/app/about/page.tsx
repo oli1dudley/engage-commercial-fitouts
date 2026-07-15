@@ -73,14 +73,14 @@ export default function AboutPage() {
         body="Engage was created to simplify the transformation of commercial offices by bringing design, technical works, renovation, furniture and handover into one coordinated service."
         primaryCTA={{ label: "Meet With the Engage Team", href: "/contact", variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Engage delivery model concept"
+        visual="commercial-transformation"
       />
 
       {/* ── The market problem ───────────────────────────────────────── */}
       <section className="bg-ink section-padding" aria-labelledby="problem-heading">
         <div className="max-container container-padding">
           <FadeUp>
-            <ContentSplit visualLabel="Coordinated delivery concept" visualSide="right">
+            <ContentSplit visual="about" visualSide="right">
               <SectionHeader
                 id="problem-heading"
                 eyebrow="The Market Problem"
@@ -94,29 +94,21 @@ export default function AboutPage() {
                 managers. Engage provides one managed route through the full
                 project.
               </p>
+              {/* Purpose statement, integrated as a compact highlight */}
+              <blockquote className="m-0 border-l-2 border-gold pl-5 py-1">
+                <p className="eyebrow mb-2">Our Purpose</p>
+                <p className="text-base md:text-lg text-cream/90 leading-relaxed m-0">
+                  Our purpose is to make commercial property transformation
+                  clearer, more controlled and more commercially focused.
+                </p>
+              </blockquote>
             </ContentSplit>
           </FadeUp>
         </div>
       </section>
 
-      {/* ── Purpose ──────────────────────────────────────────────────── */}
-      <section className="bg-ink-raised border-y border-line grid-texture section-padding" aria-labelledby="purpose-heading">
-        <div className="max-container container-padding">
-          <div className="flex flex-col items-center text-center gap-6 max-w-2xl mx-auto">
-            <FadeUp>
-              <SectionHeader
-                id="purpose-heading"
-                eyebrow="Our Purpose"
-                headline="Clearer, More Controlled, More Commercially Focused"
-                subheadline="Our purpose is to make commercial property transformation clearer, more controlled and more commercially focused."
-              />
-            </FadeUp>
-          </div>
-        </div>
-      </section>
-
       {/* ── Who Engage serves ────────────────────────────────────────── */}
-      <section className="bg-ink section-padding" aria-labelledby="serves-heading">
+      <section className="bg-ink py-[56px] md:py-[72px] lg:py-[88px]" aria-labelledby="serves-heading">
         <div className="max-container container-padding flex flex-col gap-12">
           <FadeUp>
             <SectionHeader

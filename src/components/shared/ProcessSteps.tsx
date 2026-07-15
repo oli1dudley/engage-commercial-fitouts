@@ -74,10 +74,15 @@ export default function ProcessSteps({
 
   return (
     <div className={cn("flex flex-col items-center gap-10", className)}>
-      <ol className={cn("grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 w-full", lgCols)} role="list">
+      {/* Mobile: one continuous vertical journey; desktop: horizontal row */}
+      <ol className={cn("grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0 sm:gap-y-8 w-full", lgCols)} role="list">
         {steps.map((step, i) => (
-          <li key={i} className="relative flex flex-col gap-3">
-            {/* Connector line (desktop only) */}
+          <li key={i} className="relative flex sm:flex-col gap-4 sm:gap-3 pb-6 last:pb-0 sm:pb-0">
+            {/* Mobile vertical connector */}
+            {i < steps.length - 1 && (
+              <div className="sm:hidden absolute left-[19px] top-11 bottom-0 w-px bg-line" aria-hidden />
+            )}
+            {/* Desktop horizontal connector */}
             {i < steps.length - 1 && (
               <div
                 className="hidden lg:block absolute top-5 left-[52px] right-[-12px] h-px bg-line"
@@ -92,7 +97,7 @@ export default function ProcessSteps({
               {String(i + 1).padStart(2, "0")}
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 pt-2 sm:pt-0">
               <h3 className="text-sm font-semibold text-cream leading-snug">{step.title}</h3>
               {step.description && (
                 <p className="text-xs text-stone leading-relaxed">{step.description}</p>

@@ -100,7 +100,7 @@ export default function OccupiersPage() {
         body="Engage designs and delivers commercial offices that support how businesses work, present themselves and grow."
         primaryCTA={{ ...CTA.workplace, variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Workplace concept"
+        visual="occupier-workplace"
       />
 
       {/* ── Who This Is For ──────────────────────────────────────────── */}
@@ -189,7 +189,7 @@ export default function OccupiersPage() {
       <section className="bg-ink-raised border-y border-line section-padding" aria-labelledby="continuity-heading">
         <div className="max-container container-padding">
           <FadeUp>
-            <ContentSplit visualLabel="Delivery coordination concept" visualSide="left">
+            <ContentSplit visual="project-management" visualSide="left">
               <SectionHeader
                 id="continuity-heading"
                 eyebrow="Delivery & Business Continuity"

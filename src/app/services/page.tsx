@@ -42,7 +42,7 @@ export default function ServicesPage() {
         primaryCTA={{ ...CTA.primary, variant: "primary" }}
         secondaryCTA={{ ...CTA.process, variant: "secondary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Integrated delivery concept"
+        visual="about"
       />
 
       {/* ── Service cards ────────────────────────────────────────────── */}

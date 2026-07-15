@@ -6,9 +6,10 @@ import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Breadcrumbs from "./Breadcrumbs";
-import ImagePlaceholder from "./ImagePlaceholder";
+import ArchitecturalVisual, { type ArchitecturalVariant } from "./ArchitecturalVisual";
 import { unbreakable } from "@/lib/text";
 import type { BreadcrumbItem } from "@/types/seo";
+import type { ApprovedImage } from "@/types/images";
 
 interface HeroCTA {
   label: string;
@@ -23,15 +24,18 @@ interface PageHeroProps {
   primaryCTA?: HeroCTA;
   secondaryCTA?: HeroCTA;
   breadcrumbs?: BreadcrumbItem[];
-  /** "split" shows an architectural visual beside the copy */
+  /** "split" shows a visual beside the copy */
   variant?: "split" | "centered";
-  visualLabel?: string;
+  /** Page-specific architectural fallback drawing */
+  visual?: ArchitecturalVariant;
+  /** Reduced vertical padding for lightweight heroes (e.g. FAQs, legal) */
+  compact?: boolean;
   /**
    * Approved hero imagery. When provided it replaces the architectural
-   * placeholder — pass real, approved photography only (never imagery
-   * implying completed Engage projects unless genuine).
+   * visual — pass real, approved photography only (never imagery implying
+   * completed Engage projects unless genuine).
    */
-  image?: { src: string; alt: string };
+  image?: ApprovedImage;
 }
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
@@ -46,6 +50,43 @@ const item = {
 };
 const noMotion = { hidden: {}, visible: {} };
 
+function HeroMedia({
+  image,
+  visual,
+  compact,
+}: {
+  image?: ApprovedImage;
+  visual: ArchitecturalVariant;
+  compact?: boolean;
+}) {
+  if (image) {
+    return (
+      <figure className="m-0">
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[6px] border border-line">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            className="object-cover"
+            style={image.focal ? { objectPosition: image.focal } : undefined}
+            priority={image.priority ?? true}
+            sizes="(max-width: 1024px) 100vw, 42vw"
+          />
+          {image.illustrative && (
+            <span className="absolute top-3 left-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-cream/70 bg-ink/70 px-2 py-1 rounded-[2px]">
+              Illustrative
+            </span>
+          )}
+        </div>
+        {image.caption && (
+          <figcaption className="mt-2 text-xs text-cream/45">{image.caption}</figcaption>
+        )}
+      </figure>
+    );
+  }
+  return <ArchitecturalVisual variant={visual} compact={compact} />;
+}
+
 export default function PageHero({
   headline,
   eyebrow,
@@ -54,12 +95,19 @@ export default function PageHero({
   secondaryCTA,
   breadcrumbs,
   variant = "split",
-  visualLabel = "Concept visual",
+  visual = "commercial-transformation",
+  compact = false,
   image,
 }: PageHeroProps) {
   const reduced = useReducedMotion();
   const containerVariants = reduced ? noMotion : container;
   const itemVariants = reduced ? noMotion : item;
+
+  const padding = compact
+    ? "py-10 md:py-12 lg:py-14"
+    : variant === "centered"
+      ? "py-14 md:py-16 lg:py-20"
+      : "py-12 md:py-16 lg:py-20";
 
   return (
     <section className="relative bg-ink overflow-hidden border-b border-line">
@@ -73,17 +121,17 @@ export default function PageHero({
         aria-hidden
       />
 
-      <div className={`relative max-container container-padding ${variant === "centered" ? "py-16 md:py-20 lg:py-24" : "py-16 md:py-20 lg:py-28"}`}>
+      <div className={`relative max-container container-padding ${padding}`}>
         <div
           className={
             variant === "split"
-              ? "grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-12 lg:gap-16 items-center"
+              ? "grid grid-cols-1 lg:grid-cols-[7fr_5fr] gap-10 lg:gap-16 items-center"
               : "flex flex-col items-center text-center max-w-3xl mx-auto"
           }
         >
           {/* Text */}
           <motion.div
-            className={variant === "centered" ? "flex flex-col gap-6 items-center text-center" : "flex flex-col gap-6"}
+            className={variant === "centered" ? "flex flex-col gap-5 items-center text-center" : "flex flex-col gap-6"}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -145,29 +193,25 @@ export default function PageHero({
                 )}
               </motion.div>
             )}
+
+            {/* Compact visual below the CTAs on mobile — keeps the first
+                screen focused while still giving the page its drawing */}
+            {variant === "split" && (
+              <motion.div className="lg:hidden mt-4" variants={itemVariants}>
+                <HeroMedia image={image} visual={visual} compact />
+              </motion.div>
+            )}
           </motion.div>
 
-          {/* Architectural visual */}
+          {/* Desktop visual */}
           {variant === "split" && (
             <motion.div
               initial={reduced ? false : { opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
-              className="relative w-full hidden md:block"
+              className="relative w-full hidden lg:block"
             >
-              {image ? (
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[6px] border border-line">
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                  />
-                </div>
-              ) : (
-                <ImagePlaceholder ratio="4:3" label={visualLabel} />
-              )}
+              <HeroMedia image={image} visual={visual} />
             </motion.div>
           )}
         </div>

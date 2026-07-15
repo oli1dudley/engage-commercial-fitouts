@@ -117,14 +117,14 @@ export default function InvestorsPage() {
         body="Engage helps investors, landlords and asset owners transform outdated, vacant and shell-condition commercial properties into fully completed offices prepared for resale, leasing or repositioning."
         primaryCTA={{ label: "Discuss a Property", href: "/contact", variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Asset transformation concept"
+        visual="investor-property"
       />
 
       {/* ── The Commercial Challenge ─────────────────────────────────── */}
       <section className="bg-ink section-padding" aria-labelledby="challenge-heading">
         <div className="max-container container-padding">
           <FadeUp>
-            <ContentSplit visualLabel="Shell-condition office concept" visualSide="right">
+            <ContentSplit visual="commercial-transformation" visualSide="right">
               <SectionHeader
                 id="challenge-heading"
                 eyebrow="The Commercial Challenge"

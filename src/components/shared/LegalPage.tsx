@@ -36,6 +36,7 @@ export default function LegalPage({
         body={intro}
         breadcrumbs={breadcrumbs}
         variant="centered"
+        compact
       />
 
       <section className="bg-ink section-padding" aria-label={title}>

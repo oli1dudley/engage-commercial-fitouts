@@ -7,7 +7,7 @@ import { CASE_STUDIES } from "@/data/case-studies";
 import StructuredData from "@/components/seo/StructuredData";
 import PageHero from "@/components/shared/PageHero";
 import SectionHeader from "@/components/shared/SectionHeader";
-import CapabilityCard from "@/components/shared/CapabilityCard";
+import CapabilityCard, { type CapabilitySymbol } from "@/components/shared/CapabilityCard";
 import CTASection from "@/components/shared/CTASection";
 import { FadeUp, StaggerGrid, StaggerItem } from "@/components/ui/motion";
 import type { BreadcrumbItem } from "@/types/seo";
@@ -24,6 +24,8 @@ const BREADCRUMBS: BreadcrumbItem[] = [{ label: "Projects" }];
 const CAPABILITIES = [
   {
     title: "Shell-and-Core Office Transformation",
+    symbol: "shell" as CapabilitySymbol,
+    summary: { start: "Bare shell with no fit-out or services", outcome: "Complete office ready for market or occupation" },
     details: [
       { label: "Starting point", value: "Bare shell unit with no internal fit-out, finishes or services distribution." },
       { label: "Likely scope", value: "Full design, technical works, interior construction, finishes and furniture." },
@@ -37,6 +39,8 @@ const CAPABILITIES = [
   },
   {
     title: "Existing Office Refurbishment",
+    symbol: "refurbishment" as CapabilitySymbol,
+    summary: { start: "Dated office that no longer performs", outcome: "Refreshed, professional workspace" },
     details: [
       { label: "Starting point", value: "A dated or tired office that no longer presents or performs well." },
       { label: "Likely scope", value: "Strip-out of selected elements, new finishes, updated layout and lighting." },
@@ -49,6 +53,8 @@ const CAPABILITIES = [
   },
   {
     title: "Investor Resale Preparation",
+    symbol: "resale" as CapabilitySymbol,
+    summary: { start: "Outdated or incomplete office held as an asset", outcome: "Finished office prepared for sale" },
     details: [
       { label: "Starting point", value: "An outdated, vacant or incomplete office held or purchased as an asset." },
       { label: "Likely scope", value: "Market-led design, controlled specification and complete delivery." },
@@ -61,6 +67,8 @@ const CAPABILITIES = [
   },
   {
     title: "Leasing Preparation",
+    symbol: "leasing" as CapabilitySymbol,
+    summary: { start: "Vacant unit needing tenant appeal", outcome: "Market-ready space tenants can occupy" },
     details: [
       { label: "Starting point", value: "A vacant unit that needs to appeal to prospective tenants." },
       { label: "Likely scope", value: "Flexible layout planning, durable specification and complete finishing." },
@@ -73,6 +81,8 @@ const CAPABILITIES = [
   },
   {
     title: "Complete Business Office Fit-Out",
+    symbol: "business" as CapabilitySymbol,
+    summary: { start: "Business moving, expanding or relocating", outcome: "Fully operational office for the team" },
     details: [
       { label: "Starting point", value: "A business moving into, expanding within or relocating to a new space." },
       { label: "Likely scope", value: "Workplace brief, design, fit-out, technical works, furniture and handover." },
@@ -85,6 +95,8 @@ const CAPABILITIES = [
   },
   {
     title: "Workspace Reconfiguration",
+    symbol: "reconfiguration" as CapabilitySymbol,
+    summary: { start: "Occupied office whose layout no longer suits", outcome: "Reconfigured workspace for current teams" },
     details: [
       { label: "Starting point", value: "An occupied office whose layout no longer suits the organisation." },
       { label: "Likely scope", value: "Replanning, partition changes, services adjustments and phased works." },
@@ -97,6 +109,8 @@ const CAPABILITIES = [
   },
   {
     title: "Furniture and Final Setup",
+    symbol: "furniture" as CapabilitySymbol,
+    summary: { start: "Completed fit-out needing furnishing", outcome: "Furnished space ready for use or handover" },
     details: [
       { label: "Starting point", value: "A completed or near-complete fit-out that needs furnishing." },
       { label: "Likely scope", value: "Product selection, procurement, delivery, installation and placement." },
@@ -108,6 +122,8 @@ const CAPABILITIES = [
   },
   {
     title: "MEP, HVAC and Technical Upgrade",
+    symbol: "technical" as CapabilitySymbol,
+    summary: { start: "Dated or inadequate technical systems", outcome: "Infrastructure supporting the office safely" },
     details: [
       { label: "Starting point", value: "An office whose technical systems are dated, inadequate or misaligned with the layout." },
       { label: "Likely scope", value: "HVAC, electrical, lighting, power and data works coordinated with the space." },
@@ -137,7 +153,7 @@ export default function ProjectsPage() {
         body="Explore the property conditions, project scopes and commercial outcomes supported through the Engage delivery model."
         primaryCTA={{ label: "Discuss a Similar Project", href: "/contact", variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Capability overview concept"
+        visual="capabilities"
       />
 
       {/* ── Capability categories ────────────────────────────────────── */}
@@ -162,6 +178,8 @@ export default function ProjectsPage() {
                 <CapabilityCard
                   index={i + 1}
                   title={capability.title}
+                  symbol={capability.symbol}
+                  summary={capability.summary}
                   details={capability.details}
                   services={capability.services}
                   className="h-full"

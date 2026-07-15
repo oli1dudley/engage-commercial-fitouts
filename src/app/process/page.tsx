@@ -75,7 +75,7 @@ export default function ProcessPage() {
         body="Every Engage project moves through the same managed structure, so clients always know what has been agreed, what happens next and who is responsible."
         primaryCTA={{ label: "Begin With a Project Consultation", href: "/contact", variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Delivery route concept"
+        visual="process"
       />
 
       {/* ── Seven stages ─────────────────────────────────────────────── */}

@@ -36,7 +36,9 @@ export default function CTASection({
         aria-hidden
       />
 
-      <div className="relative max-container container-padding section-padding">
+      {/* Slightly tighter than section-padding — CTA bands repeat on every
+          page and carry little content, so they earn less vertical space */}
+      <div className="relative max-container container-padding py-[56px] md:py-[72px] lg:py-[88px]">
         <div className="flex flex-col items-center text-center gap-6 max-w-2xl mx-auto">
           <span className="inline-block w-10 h-px bg-gold" aria-hidden />
           <h2 className="text-[26px] md:text-[34px] lg:text-[40px] font-semibold text-cream leading-[1.12] tracking-tight text-balance">

@@ -69,7 +69,7 @@ export default function SolutionsPage() {
         body="The same office can require a very different strategy depending on whether it is being prepared for resale, leasing or occupation. Engage structures each project around the client's commercial objective."
         primaryCTA={{ ...CTA.primary, variant: "primary" }}
         breadcrumbs={BREADCRUMBS}
-        visualLabel="Commercial strategy concept"
+        visual="capabilities"
       />
 
       {/* ── Investors and Asset Owners ───────────────────────────────── */}
